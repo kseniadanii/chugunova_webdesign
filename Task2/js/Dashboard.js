@@ -1,5 +1,5 @@
 /**
- * Класс Dashboard - управляет коллекцией виджетов
+ * Класс Dashboard — управляет коллекцией виджетов CatHub
  */
 export class Dashboard {
     constructor(containerSelector) {
@@ -8,7 +8,7 @@ export class Dashboard {
         this.widgetTypes = new Map();
 
         if (!this.container) {
-            throw new Error(`Контейнер ${containerSelector} не найден`);
+            throw new Error(`Контейнер "${containerSelector}" не найден`);
         }
     }
 
@@ -20,7 +20,7 @@ export class Dashboard {
     }
 
     /**
-     * Создает и добавляет виджет
+     * Создает и добавляет виджет указанного типа
      */
     addWidget(type, config = {}) {
         const WidgetClass = this.widgetTypes.get(type);
@@ -30,28 +30,28 @@ export class Dashboard {
             return null;
         }
 
-        // Создаем экземпляр виджета
+        // Создаем экземпляр
         const widget = new WidgetClass(config);
 
-        // Рендерим виджет
-        const widgetElement = widget.render();
+        // Рендерим и добавляем в DOM
+        const element = widget.render();
+
+        // Анимация появления
+        element.style.opacity = '0';
+        element.style.transform = 'scale(0.95)';
+        this.container.appendChild(element);
+
+        requestAnimationFrame(() => {
+            element.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            element.style.opacity = '1';
+            element.style.transform = 'scale(1)';
+        });
 
         // Добавляем в массив
         this.widgets.push(widget);
 
-        // Добавляем в DOM с анимацией
-        widgetElement.style.opacity = '0';
-        widgetElement.style.transform = 'scale(0.9)';
-        this.container.appendChild(widgetElement);
-
-        // Анимация появления
-        requestAnimationFrame(() => {
-            widgetElement.style.opacity = '1';
-            widgetElement.style.transform = 'scale(1)';
-        });
-
-        // Добавляем обработчик закрытия
-        widgetElement.addEventListener('widget-close', (e) => {
+        // Обработчик закрытия
+        element.addEventListener('widget-close', (e) => {
             e.stopPropagation();
             this.removeWidget(e.detail.widgetId);
         });
@@ -66,7 +66,7 @@ export class Dashboard {
         const index = this.widgets.findIndex(w => w.id === widgetId);
 
         if (index === -1) {
-            console.error(`Виджет с ID "${widgetId}" не найден`);
+            console.warn(`Виджет с ID "${widgetId}" не найден`);
             return false;
         }
 
@@ -75,20 +75,20 @@ export class Dashboard {
         // Анимация удаления
         if (widget.element) {
             widget.element.style.opacity = '0';
-            widget.element.style.transform = 'scale(0.9)';
+            widget.element.style.transform = 'scale(0.95)';
         }
 
         // Удаляем после анимации
         setTimeout(() => {
             widget.destroy();
             this.widgets.splice(index, 1);
-        }, 200);
+        }, 250);
 
         return true;
     }
 
     /**
-     * Возвращает все виджеты
+     * Возвращает массив всех виджетов
      */
     getWidgets() {
         return [...this.widgets];
@@ -105,7 +105,6 @@ export class Dashboard {
      * Удаляет все виджеты
      */
     clear() {
-        // Удаляем в обратном порядке для корректной работы
         [...this.widgets].forEach(widget => {
             this.removeWidget(widget.id);
         });

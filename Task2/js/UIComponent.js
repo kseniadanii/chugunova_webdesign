@@ -1,15 +1,16 @@
 /**
- * Базовый (абстрактный) класс для всех виджетов
+ * Базовый класс для всех виджетов CatHub
  */
 export class UIComponent {
-    constructor(config) {
+    constructor(config = {}) {
         if (new.target === UIComponent) {
-            throw new Error('Нельзя создать экземпляр абстрактного класса UIComponent');
+            throw new Error('UIComponent — абстрактный класс, нельзя создать экземпляр');
         }
 
         this.id = config.id || this.generateId();
         this.title = config.title || 'Виджет';
         this.element = null;
+        this.isMinimized = false;
         this.eventListeners = [];
     }
 
@@ -17,11 +18,11 @@ export class UIComponent {
      * Генерирует уникальный ID
      */
     generateId() {
-        return 'widget-' + Math.random().toString(36).substr(2, 9);
+        return `widget-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
     }
 
     /**
-     * Регистрирует слушатель события для автоматического удаления
+     * Регистрирует обработчик события для автоматической очистки
      */
     addEventListener(element, event, handler) {
         element.addEventListener(event, handler);
@@ -29,14 +30,15 @@ export class UIComponent {
     }
 
     /**
-     * Создает DOM-элемент с базовой структурой виджета
+     * Создает базовую структуру виджета
      */
     createWidgetWrapper() {
         const wrapper = document.createElement('div');
         wrapper.className = 'widget';
         wrapper.id = this.id;
-        wrapper.setAttribute('data-widget-type', this.constructor.name);
+        wrapper.dataset.widgetType = this.constructor.name;
 
+        // Заголовок виджета
         const header = document.createElement('div');
         header.className = 'widget-header';
 
@@ -62,6 +64,7 @@ export class UIComponent {
         header.appendChild(title);
         header.appendChild(controls);
 
+        // Контент виджета
         const content = document.createElement('div');
         content.className = 'widget-content';
 
@@ -69,59 +72,68 @@ export class UIComponent {
         wrapper.appendChild(content);
 
         // Привязываем обработчики
-        this.addEventListener(minimizeBtn, 'click', () => this.toggleMinimize(wrapper));
+        this.addEventListener(minimizeBtn, 'click', () => this.minimize());
         this.addEventListener(closeBtn, 'click', () => this.close());
 
-        // Сохраняем ссылку на контент для наследников
         this.contentElement = content;
+        this.element = wrapper;
 
         return wrapper;
     }
 
     /**
-     * Переключает свернутое состояние виджета
+     * Свернуть/развернуть виджет
      */
-    toggleMinimize(wrapper) {
-        wrapper.classList.toggle('minimized');
+    minimize() {
+        if (!this.element) return;
+
+        this.isMinimized = !this.isMinimized;
+        this.element.classList.toggle('minimized', this.isMinimized);
+
+        const minimizeBtn = this.element.querySelector('.minimize-btn');
+        if (minimizeBtn) {
+            minimizeBtn.innerHTML = this.isMinimized ? '+' : '−';
+            minimizeBtn.title = this.isMinimized ? 'Развернуть' : 'Свернуть';
+        }
     }
 
     /**
-     * Возвращает DOM-элемент виджета
-     * Должен быть переопределен в наследниках
+     * Закрыть виджет (вызывает удаление через Dashboard)
      */
-    render() {
-        throw new Error('Метод render() должен быть переопределен');
+    close() {
+        const event = new CustomEvent('widget-close', {
+            detail: { widgetId: this.id },
+            bubbles: true
+        });
+
+        if (this.element) {
+            this.element.dispatchEvent(event);
+        }
     }
 
     /**
-     * Удаляет виджет из DOM и очищает слушатели событий
+     * Удалить виджет из DOM и очистить обработчики
      */
     destroy() {
-        // Удаляем все зарегистрированные слушатели событий
+        // Удаляем все обработчики событий
         this.eventListeners.forEach(({ element, event, handler }) => {
             element.removeEventListener(event, handler);
         });
         this.eventListeners = [];
 
-        // Удаляем элемент из DOM
+        // Удаляем из DOM
         if (this.element && this.element.parentNode) {
             this.element.parentNode.removeChild(this.element);
         }
 
         this.element = null;
+        this.contentElement = null;
     }
 
     /**
-     * Закрывает виджет (вызывается через Dashboard)
+     * Рендер виджета — должен быть переопределен в наследниках
      */
-    close() {
-        // Этот метод будет вызван Dashboard для корректного удаления
-        const event = new CustomEvent('widget-close', {
-            detail: { widgetId: this.id },
-            bubbles: true
-        });
-        if (this.element) {
-            this.element.dispatchEvent(event);
-        }
+    render() {
+        throw new Error('Метод render() должен быть переопределен в наследнике');
     }
 }
