@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skyline Runner | JavaScript Platformer</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <section class="top-panel" aria-label="Игровая панель">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1>Skyline Runner</h1>
+            <p>Canvas platformer</p>
+          </div>
+        </div>
+
+        <div class="stats" aria-live="polite">
+          <div class="stat">
+            <span>Счет</span>
+            <strong id="scoreValue">0</strong>
+          </div>
+          <div class="stat">
+            <span>Монеты</span>
+            <strong id="coinValue">0/0</strong>
+          </div>
+          <div class="stat">
+            <span>Уровень</span>
+            <strong id="levelValue">1</strong>
+          </div>
+          <div class="stat hearts" id="healthValue" aria-label="Здоровье"></div>
+        </div>
+
+        <div class="actions">
+          <button id="startButton" type="button">Старт</button>
+          <button id="pauseButton" type="button">Пауза</button>
+          <button id="restartButton" type="button">Рестарт</button>
+        </div>
+      </section>
+
+      <section class="canvas-wrap" aria-label="Игровая область">
+        <canvas id="gameCanvas" width="960" height="540">
+          Ваш браузер не поддерживает HTML5 Canvas.
+        </canvas>
+        <div class="overlay" id="gameOverlay">
+          <h2 id="overlayTitle">Skyline Runner</h2>
+          <p id="overlayText">Соберите монеты, избегайте дронов и доберитесь до портала.</p>
+          <button id="overlayButton" type="button">Играть</button>
+        </div>
+      </section>
+
+      <section class="help-panel" aria-label="Управление">
+        <div><kbd>A</kbd><kbd>D</kbd> или <kbd>←</kbd><kbd>→</kbd> движение</div>
+        <div><kbd>W</kbd>/<kbd>Space</kbd>/<kbd>↑</kbd> прыжок</div>
+        <div><kbd>P</kbd> пауза, <kbd>R</kbd> рестарт</div>
+      </section>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
