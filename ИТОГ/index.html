@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редакция | CRUD-блог</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#articles" aria-label="Перейти к списку статей">
+      <span class="brand-mark">R</span>
+      <span>
+        <strong>Редакция</strong>
+        <small>личный блог-пульт</small>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Главная навигация">
+      <a href="#articles">Статьи</a>
+      <a href="#editor">Редактор</a>
+      <a href="#preview">Превью</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">CRUD, валидация, live preview</p>
+        <h1 id="page-title">Блог, которым можно управлять прямо в браузере</h1>
+        <p>
+          Создавайте черновики, редактируйте опубликованные материалы, проверяйте форму перед сохранением
+          и сразу смотрите, как статья будет выглядеть в ленте.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#editor">Новая статья</a>
+          <a class="button secondary" href="#articles">Смотреть ленту</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="Сводка блога">
+        <div class="metric">
+          <span id="totalArticles">0</span>
+          <small>статей</small>
+        </div>
+        <div class="metric">
+          <span id="totalCategories">0</span>
+          <small>рубрик</small>
+        </div>
+        <div class="metric">
+          <span id="totalMinutes">0</span>
+          <small>мин чтения</small>
+        </div>
+      </aside>
+    </section>
+
+    <section class="workspace" aria-label="Рабочая область блога">
+      <section class="feed" id="articles" aria-labelledby="articles-title">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Лента</p>
+            <h2 id="articles-title">Опубликованные статьи</h2>
+          </div>
+          <button class="button ghost" type="button" id="clearStorageButton">Сбросить демо</button>
+        </div>
+
+        <div class="toolbar" aria-label="Фильтры статей">
+          <label class="search-field">
+            <span class="visually-hidden">Поиск по статьям</span>
+            <input type="search" id="searchInput" placeholder="Поиск по названию, автору или тексту">
+          </label>
+
+          <label>
+            <span>Рубрика</span>
+            <select id="categoryFilter">
+              <option value="all">Все рубрики</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Сортировка</span>
+            <select id="sortSelect">
+              <option value="newest">Сначала новые</option>
+              <option value="oldest">Сначала старые</option>
+              <option value="title">По названию</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="article-list" id="articleList" aria-live="polite"></div>
+        <p class="empty-state" id="emptyState" hidden>Ничего не найдено. Измените запрос или создайте новую статью.</p>
+      </section>
+
+      <section class="editor-shell" id="editor" aria-labelledby="editor-title">
+        <div class="section-head compact">
+          <div>
+            <p class="eyebrow">Редактор</p>
+            <h2 id="editor-title">Новая статья</h2>
+          </div>
+          <button class="button ghost" type="button" id="cancelEditButton" hidden>Отменить</button>
+        </div>
+
+        <form class="editor-form" id="articleForm" novalidate>
+          <input type="hidden" id="articleId">
+
+          <div class="field">
+            <label for="titleInput">Заголовок</label>
+            <input id="titleInput" name="title" type="text" maxlength="90" placeholder="Например: Как писать заметки для интерфейсов">
+            <small class="hint">Минимум 6 символов.</small>
+            <p class="error" id="titleError"></p>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="authorInput">Автор</label>
+              <input id="authorInput" name="author" type="text" maxlength="40" placeholder="Имя автора">
+              <p class="error" id="authorError"></p>
+            </div>
+
+            <div class="field">
+              <label for="categoryInput">Рубрика</label>
+              <select id="categoryInput" name="category">
+                <option value="">Выберите рубрику</option>
+                <option value="UX">UX</option>
+                <option value="Визуал">Визуал</option>
+                <option value="Код">Код</option>
+                <option value="Кейсы">Кейсы</option>
+              </select>
+              <p class="error" id="categoryError"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="excerptInput">Краткое описание</label>
+            <textarea id="excerptInput" name="excerpt" rows="3" maxlength="180" placeholder="О чём статья и почему её стоит открыть"></textarea>
+            <div class="counter"><span id="excerptCount">0</span>/180</div>
+            <p class="error" id="excerptError"></p>
+          </div>
+
+          <div class="field">
+            <label for="contentInput">Текст статьи</label>
+            <textarea id="contentInput" name="content" rows="10" placeholder="Напишите основной текст. Абзацы можно разделять пустой строкой."></textarea>
+            <div class="counter"><span id="contentCount">0</span> символов</div>
+            <p class="error" id="contentError"></p>
+          </div>
+
+          <div class="form-actions">
+            <button class="button primary" type="submit" id="submitButton">Опубликовать</button>
+            <button class="button secondary" type="button" id="fillExampleButton">Заполнить пример</button>
+          </div>
+        </form>
+      </section>
+    </section>
+
+    <section class="preview-section" id="preview" aria-labelledby="preview-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Live preview</p>
+          <h2 id="preview-title">Предпросмотр статьи</h2>
+        </div>
+      </div>
+      <article class="preview-card" id="previewCard">
+        <div class="cover preview-cover" aria-hidden="true"></div>
+        <div class="preview-body">
+          <p class="article-meta"><span id="previewCategory">Рубрика</span> · <span id="previewReadTime">1 мин</span></p>
+          <h3 id="previewTitle">Заголовок появится здесь</h3>
+          <p class="excerpt" id="previewExcerpt">Краткое описание обновляется во время ввода.</p>
+          <div class="article-content" id="previewContent">
+            <p>Основной текст статьи будет отображаться абзацами.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
