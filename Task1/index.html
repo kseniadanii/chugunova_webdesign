@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Портфолио-резюме дизайнера</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-decor decor-1"></div>
+  <div class="page-decor decor-2"></div>
+
+  <header class="hero">
+    <div class="container hero__grid">
+      <div class="hero__photo">
+        <div class="photo-card">
+          <img src="images/my-photo.jpg" alt="Мое фото" />
+          <span class="photo-card__badge">вставь своё фото</span>
+        </div>
+      </div>
+
+      <div class="hero__content">
+        <p class="eyebrow">Портфолио · Резюме</p>
+        <h1>Чугунова Ксения</h1>
+        <p class="hero__subtitle">
+          Дизайнер с любовью к аккуратной верстке, эстетике и котам
+        </p>
+
+        <ul class="info-list">
+          <li><span>Возраст:</span> 21 год</li>
+          <li><span>Место учебы:</span> СпБГУПТД</li>
+          <li><span>Направление:</span> Дизайн / веб-дизайн</li>
+          <li><span>Город:</span> Санкт-Петербург / Ижевск</li>
+        </ul>
+
+        <div class="hero__buttons">
+          <a href="#projects" class="btn btn--primary">Смотреть работы</a>
+          <a href="#contacts" class="btn btn--ghost">Контакты</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="about section">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-tag">Обо мне</p>
+          <h2>Немного обо мне</h2>
+        </div>
+
+        <div class="card">
+          <p>
+            Я занимаюсь дизайном и люблю создавать визуально аккуратные, понятные и
+            современные работы. Мне нравится работать с композицией, типографикой,
+            цветом и атмосферой проекта. Я особенно люблю проекты, в которых можно
+            сочетать эстетику и удобство для пользователя.
+          </p>
+          <p>
+            Вдохновляюсь визуальной культурой, модой, цифровым дизайном и, конечно,
+            котами — поэтому в этом сайте использованы мягкие формы, плавные анимации
+            и немного «кошачьего» характера.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience section">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-tag">Опыт</p>
+          <h2>Опыт работы в дизайне</h2>
+        </div>
+
+        <div class="card">
+          <p>
+            Уже 3 года занимаюсь дизайном креативов, печатной продукции. В данный момент веду проекты для ресторана. Разрабатываю все меню, рекламу, афиши и даже уличные банеры. 
+          </p>
+          <p>
+            Работаю в программах: Adobe
+            Illustrator, Photoshop, Figma, InDesign
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="education-skills section">
+      <div class="container grid-2">
+        <div class="card">
+          <div class="section-head section-head--left">
+            <p class="section-tag">Образование</p>
+            <h2>Где я учусь</h2>
+          </div>
+          <p>
+            СпБГУПТД<br />
+            Прикладная информатика в дизайне<br />
+            2022 - 2027
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="section-head section-head--left">
+            <p class="section-tag">Навыки</p>
+            <h2>Что я умею</h2>
+          </div>
+
+          <ul class="skills">
+            <li>Adobe Illustrator</li>
+            <li>Adobe Photoshop</li>
+            <li>Figma</li>
+            <li>Основы HTML / CSS / JavaScript</li>
+            <li>Типографика и композиция</li>
+            <li>Оформление печатных и digital-материалов</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects section" id="projects">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-tag">Проекты</p>
+          <h2>Мои работы</h2>
+          <p class="section-note">
+            Нажми на карточку, чтобы вывести работу в центр. Можно ещё перемешать галерею.
+          </p>
+        </div>
+
+        <div class="gallery-toolbar">
+          <button class="btn btn--primary" id="shuffleBtn">Перетасовать работы</button>
+          <button class="btn btn--ghost" id="resetBtn">Вернуть исходный вид</button>
+        </div>
+
+        <div class="cat-gallery" id="catGallery">
+          <article class="work-card is-active" data-order="0">
+            <img src="images/work-1.png" alt="Работа 1" />
+            <div class="work-card__content">
+              <h3>Проект 1</h3>
+              <p>Афиша для десткого праздника</p>
+            </div>
+          </article>
+
+          <article class="work-card" data-order="1">
+            <img src="images/work-2.png" alt="Работа 2" />
+            <div class="work-card__content">
+              <h3>Проект 2</h3>
+              <p>Меню в грузинском стиле
+              </p>
+            </div>
+          </article>
+
+          <article class="work-card" data-order="2">
+            <img src="images/work-3.png" alt="Работа 3" />
+            <div class="work-card__content">
+              <h3>Проект 3</h3>
+              <p>Визитка для магазина</p>
+            </div>
+          </article>
+
+          <article class="work-card" data-order="3">
+            <img src="images/work-4.png" alt="Работа 4" />
+            <div class="work-card__content">
+              <h3>Проект 4</h3>
+              <p>Меню в русском стиле</p>
+            </div>
+          </article>
+
+          <article class="work-card" data-order="4">
+            <img src="images/work-5.png" alt="Работа 5" />
+            <div class="work-card__content">
+              <h3>Проект 5</h3>
+              <p>Афиша для мероприятия</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contacts section" id="contacts">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-tag">Контакты</p>
+          <h2>Связаться со мной</h2>
+        </div>
+
+        <div class="card contacts-card">
+          <a href="mailto:yourmail@example.com">Xchugun@yandex.ru</a>
+          <a href="https://t.me/kseniadanii" target="_blank" rel="noopener noreferrer">Tg: @kseniadanii</a>
+          <a href="https://hh.ru/resume/d075c203ff0f5055460039ed1f416f724c344c?from=share_ios" target="_blank" rel="noopener noreferrer">hh.ru / Portfolio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Использованная нейросеть: ChatGPT ~ 30 минут</p>
+      <p>JavaScript-функционал: интерактивная галерея работ с выделением карточек и перемешиванием композиции</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
