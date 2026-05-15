@@ -1,0 +1,146 @@
+/* ===== Базовые стили CatHub ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #ff9a9e;
+    --color-secondary: #fad0c4;
+    --color-accent: #a18cd1;
+    --color-bg: linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%);
+    --color-card: #ffffff;
+    --color-text: #4a4a4a;
+    --color-text-light: #777;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--color-bg);
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+/* ===== Шапка ===== */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+.header h1 {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Панель управления ===== */
+.controls {
+    background: var(--color-card);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+.controls h2 {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.buttons-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-todo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.btn-fact {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.btn-image {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.btn-notes {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+/* ===== Сетка дашборда ===== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 400px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    body {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .buttons-row {
+        justify-content: center;
+    }
+
+    .btn {
+        flex: 1;
+        min-width: 140px;
+        justify-content: center;
+    }
+}

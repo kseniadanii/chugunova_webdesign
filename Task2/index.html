@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatHub — Дашборд любителя котов</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>🐱 CatHub</h1>
+            <p class="subtitle">Ваш персональный дашборд для ухода за пушистыми друзьями</p>
+        </div>
+    </header>
+
+    <div class="controls">
+        <h2>Добавить виджет:</h2>
+        <div class="buttons-row">
+            <button class="btn btn-todo" data-widget="todo">📋 Список дел</button>
+            <button class="btn btn-fact" data-widget="fact">🧶 Факт о котах</button>
+            <button class="btn btn-image" data-widget="image">📸 Фото кота</button>
+            <button class="btn btn-notes" data-widget="notes">📝 Заметки</button>
+        </div>
+    </div>
+
+    <div id="dashboard" class="dashboard-grid"></div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
